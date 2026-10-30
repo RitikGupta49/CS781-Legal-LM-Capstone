@@ -4,7 +4,7 @@
 |---|---|
 | Phase-1 backbone | Architecture-1 decoder-only (110M) |
 | Adaptation | LoRMA, rank 16, α 32, on qkv / out_proj / gate / up / down (3.05M weights, 2.78%) |
-| Codabench | not yet on the results page — add the Codabench score here |
+| Codabench | BERTScore F1 **0.8404** · ROUGE-1 0.524 · ROUGE-L 0.255  (rank 1 of 5 in this phase) |
 | Own dev / validation | held-out dev: ROUGE-1 0.5026 · ROUGE-2 0.2507 · ROUGE-L 0.2521 (711 words; EOS penalty 2.0, length × 1.25) |
 | Notebook | `p6_arch1_lorma.ipynb` (original name: `p6-archi1-lorma.ipynb`) |
 | Submission file | `submission.zip` (Codabench upload; original name `p6-archi1-lorma-submission.zip`), contains `prediction.json` at the root |
@@ -18,7 +18,7 @@ The data handling, head and evaluation shared by all Phase-6 notebooks are descr
 
 ## Notes
 
-* Best dev ROUGE-1 / ROUGE-2 of Phase 6 and above the lead baseline (0.4863 / 0.2263 / 0.2306).
+* Best Phase-6 submission (Codabench BERTScore F1 0.8404). Also the best dev ROUGE-1 / ROUGE-2 of Phase 6, above the lead baseline (0.4863 / 0.2263 / 0.2306).
 
 ## Model size (printed by the notebook)
 

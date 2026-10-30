@@ -4,7 +4,7 @@
 |---|---|
 | Phase-1 backbone | Architecture-3 E-LegalFormer, GQA (125M) |
 | Adaptation | teacher: LoRA on Architecture-4 (6.29M); student: LoRA on Architecture-3 (3.47M) |
-| Codabench | not yet on the results page — add the Codabench score here |
+| Codabench | BERTScore F1 **0.8233** · ROUGE-1 0.459 · ROUGE-L 0.237  (rank 3 of 5 in this phase) |
 | Own dev / validation | held-out dev (student): ROUGE-1 0.4385 · ROUGE-2 0.1718 · ROUGE-L 0.2357 (520 words; EOS penalty 4.0, length × 0.8) |
 | Notebook | `p6_kd_arch4_to_arch3.ipynb` (original name: `p6-kd-arch4-to-arch3.ipynb`) |
 | Submission file | `submission.zip` (Codabench upload; original name `p6-archi-4-3-KDsubmission.zip`), contains `prediction.json` at the root |

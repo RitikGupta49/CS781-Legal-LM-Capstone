@@ -17,7 +17,7 @@ fine-tuning or parameter-efficient method implemented in plain PyTorch.
 | 3 | [Rhetorical roles](phase3_rhetorical_roles/) | Macro-F1 | 7 | [Arch-1 + LoRMA](phase3_rhetorical_roles/02_arch1_lorma/) | 0.5266 |
 | 4 | [Judgment prediction](phase4_judgment_prediction/) | Macro-F1 | 11 | [Arch-3 + LoRMA](phase4_judgment_prediction/09_arch3_lorma/) | 0.6896 |
 | 5 | [Statute identification](phase5_statute_identification/) | Macro-F1 | 7 | [Arch-1 + QLoRA](phase5_statute_identification/02_arch1_qlora/) | 0.2919 |
-| 6 | [Summarization](phase6_summarization/) | BERTScore F1 | 5 | [Arch-1 + LoRMA](phase6_summarization/02_arch1_lorma/) | TBD (dev ROUGE-1 0.503) |
+| 6 | [Summarization](phase6_summarization/) | BERTScore F1 | 5 | [Arch-1 + LoRMA](phase6_summarization/02_arch1_lorma/) | 0.8404 |
 | 7 | [Prior case retrieval](phase7_prior_case_retrieval/) | — | — | to be added | — |
 
 Each phase README has the full results table (all metrics, own dev scores) and the analysis; each submission folder has its
@@ -157,11 +157,11 @@ CS781-Legal-LM-Capstone/
 
 | # | Method | Submission | BERTScore F1 |
 |---|---|---|---|
-| 01 | [Arch-1 + LoRA](phase6_summarization/01_arch1_lora/) | Architecture-1 decoder + LoRA, segment-wise summarization | TBD |
-| 02 | [Arch-1 + LoRMA](phase6_summarization/02_arch1_lorma/) | Architecture-1 decoder + LoRMA, segment-wise summarization | TBD |
-| 03 | [Arch-2 + Houlsby adapters](phase6_summarization/03_arch2_houlsby_adapters/) | Architecture-2 encoder-decoder + Houlsby adapters, segment-wise summarization | TBD |
-| 04 | [Arch-4 + AdaLoRA](phase6_summarization/04_arch4_adalora/) | Architecture-4 hybrid prefix-LM + AdaLoRA, segment-wise summarization | TBD |
-| 05 | [KD Arch-4 → Arch-3](phase6_summarization/05_kd_arch4_to_arch3/) | Knowledge distillation: Architecture-4 + LoRA teacher → Architecture-3 + LoRA student (token-level) | TBD |
+| 01 | [Arch-1 + LoRA](phase6_summarization/01_arch1_lora/) | Architecture-1 decoder + LoRA, segment-wise summarization | 0.8385 |
+| 02 | [Arch-1 + LoRMA](phase6_summarization/02_arch1_lorma/) | Architecture-1 decoder + LoRMA, segment-wise summarization | 0.8404 |
+| 03 | [Arch-2 + Houlsby adapters](phase6_summarization/03_arch2_houlsby_adapters/) | Architecture-2 encoder-decoder + Houlsby adapters, segment-wise summarization | 0.8162 |
+| 04 | [Arch-4 + AdaLoRA](phase6_summarization/04_arch4_adalora/) | Architecture-4 hybrid prefix-LM + AdaLoRA, segment-wise summarization | 0.8068 |
+| 05 | [KD Arch-4 → Arch-3](phase6_summarization/05_kd_arch4_to_arch3/) | Knowledge distillation: Architecture-4 + LoRA teacher → Architecture-3 + LoRA student (token-level) | 0.8233 |
 
 </details>
 

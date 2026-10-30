@@ -4,7 +4,7 @@
 |---|---|
 | Phase-1 backbone | Architecture-1 decoder-only (110M) |
 | Adaptation | LoRA, rank 16, α 32, on qkv / out_proj / gate / up / down (2.51M weights, 2.29%) |
-| Codabench | not yet on the results page — add the Codabench score here |
+| Codabench | BERTScore F1 **0.8385** · ROUGE-1 0.524 · ROUGE-L 0.255  (rank 2 of 5 in this phase) |
 | Own dev / validation | held-out dev: ROUGE-1 0.5019 · ROUGE-2 0.2452 · ROUGE-L 0.2545 (675 words; EOS penalty 2.0, length × 1.25) |
 | Notebook | `p6_arch1_lora.ipynb` (original name: `p6-archi1-lora.ipynb`) |
 | Submission file | `submission.zip` (Codabench upload; original name `p6-archi1-lora-submission.zip`), contains `prediction.json` at the root |

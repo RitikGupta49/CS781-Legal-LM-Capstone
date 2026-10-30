@@ -4,7 +4,7 @@
 |---|---|
 | Phase-1 backbone | Architecture-4 hybrid prefix-LM (205M) |
 | Adaptation | AdaLoRA, rank 12 → average 8 (4.72M weights, 2.30%) |
-| Codabench | not yet on the results page — add the Codabench score here |
+| Codabench | BERTScore F1 **0.8068** · ROUGE-1 0.395 · ROUGE-L 0.216  (rank 5 of 5 in this phase) |
 | Own dev / validation | held-out dev: ROUGE-1 0.3848 · ROUGE-2 0.1185 · ROUGE-L 0.2194 (521 words; EOS penalty 4.0, length × 0.8) |
 | Notebook | `p6_arch4_adalora.ipynb` (original name: `p6-arch4-adalora.ipynb`) |
 | Submission file | `submission.zip` (Codabench upload; original name `p6_arch4_adalora-submission.zip`), contains `prediction.json` at the root |

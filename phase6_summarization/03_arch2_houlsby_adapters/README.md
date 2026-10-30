@@ -4,7 +4,7 @@
 |---|---|
 | Phase-1 backbone | Architecture-2 encoder-decoder (150M) |
 | Adaptation | Houlsby adapters (dim 64) after self_attention.out_proj and feed_forward.fc2 in every encoder and decoder layer (2.38M weights, 1.59%) |
-| Codabench | not yet on the results page — add the Codabench score here |
+| Codabench | BERTScore F1 **0.8162** · ROUGE-1 0.416 · ROUGE-L 0.223  (rank 4 of 5 in this phase) |
 | Own dev / validation | held-out dev: ROUGE-1 0.3976 · ROUGE-2 0.1293 · ROUGE-L 0.2208 (513 words; EOS penalty 4.0, length × 0.8) |
 | Notebook | `p6_arch2_houlsby_adapters.ipynb` (original name: `p6-arch2-houlsby-adapters.ipynb`) |
 | Submission file | `submission.zip` (Codabench upload; original name `p6_arch2_houlsby_adapters-submission.zip`), contains `prediction.json` at the root |
