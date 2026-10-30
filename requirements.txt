@@ -1,0 +1,10 @@
+# The notebooks were run on Kaggle (Python 3.10/3.11, CUDA GPU). Kaggle images already contain these.
+torch>=2.1
+numpy
+scikit-learn
+huggingface_hub
+ijson
+matplotlib
+tqdm
+pandas
+# kaggle_secrets is provided by the Kaggle runtime (used only to read the "HF" secret)

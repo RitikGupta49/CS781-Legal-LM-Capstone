@@ -1,0 +1,30 @@
+# model weights / checkpoints (never committed)
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+checkpoints/
+
+# competition data (gated dataset, downloaded at run time)
+data/
+*.jsonl
+Phase_*/
+fold*-text.json
+
+# Kaggle / local run outputs
+kaggle/working/
+outputs/
+legal_lm/
+*_checkpoints/
+
+# secrets
+kaggle.json
+.env
+*.token
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
