@@ -20,7 +20,7 @@ every setting, the last cell writes `prediction.json` and `submission.zip`.
 
 The Phase-1 runs are resumable: attach the notebook's previous output and it continues from `last.pt`.
 
-## 3. Phases 2–6
+## 3. Phases 2–7
 
 1. Attach as Kaggle inputs: the tokenizer notebook output and the output of the Phase-1 notebook(s) the run starts from
    (both, for distillation notebooks).
@@ -29,6 +29,13 @@ The Phase-1 runs are resumable: attach the notebook's previous output and it con
 3. Optional: set `DEBUG_MODE = True` in CELL 2 for a few-minute run on a handful of documents (pipeline check).
 4. *Run All*. The notebook prints the dev report and writes `/kaggle/working/<RUN_NAME>/submission.zip`
    (with `prediction.json` at the root, as Codabench requires).
+
+## Phase 7 notes
+
+* Run `p7_arch1_lorma` before the distillation notebook and attach its output: the KD notebook loads `retriever.pt` as the teacher
+  (otherwise it trains the teacher itself first).
+* `REUSE_TRAINED = True` in CELL 2 loads the `retriever.pt` of an earlier run of the same notebook instead of training
+  (useful to re-rank with a changed fusion or re-ranker without retraining).
 
 ## What is not in this repository
 

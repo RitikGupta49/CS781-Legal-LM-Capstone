@@ -5,7 +5,7 @@
 A self-hosted legal NLP stack built **from scratch**: our own BPE tokenizer and four compact legal language models
 (110M–205M parameters, no pretrained weights), trained on the official legal corpus and then adapted to six downstream
 legal tasks — named-entity recognition, rhetorical roles, judgment prediction, statute identification, summarization and
-(next) prior case retrieval. Every downstream system starts from one of the Phase-1 checkpoints and is adapted with a
+prior case retrieval. Every downstream system starts from one of the Phase-1 checkpoints and is adapted with a
 fine-tuning or parameter-efficient method implemented in plain PyTorch.
 
 ## Results overview
@@ -18,7 +18,7 @@ fine-tuning or parameter-efficient method implemented in plain PyTorch.
 | 4 | [Judgment prediction](phase4_judgment_prediction/) | Macro-F1 | 11 | [Arch-3 + LoRMA](phase4_judgment_prediction/09_arch3_lorma/) | 0.6896 |
 | 5 | [Statute identification](phase5_statute_identification/) | Macro-F1 | 7 | [Arch-1 + QLoRA](phase5_statute_identification/02_arch1_qlora/) | 0.2919 |
 | 6 | [Summarization](phase6_summarization/) | BERTScore F1 | 5 | [Arch-1 + LoRMA](phase6_summarization/02_arch1_lorma/) | 0.8404 |
-| 7 | [Prior case retrieval](phase7_prior_case_retrieval/) | — | — | to be added | — |
+| 7 | [Prior case retrieval](phase7_prior_case_retrieval/) | Micro-F1@7 | 6 | [Arch-1 + QLoRA](phase7_prior_case_retrieval/02_arch1_qlora/) | 0.4725 |
 
 Each phase README has the full results table (all metrics, own dev scores) and the analysis; each submission folder has its
 own README with the method, the exact configuration and a map of the notebook cells.
@@ -40,19 +40,19 @@ Details: [phase1_pretraining/README.md](phase1_pretraining/README.md). Tokenizer
 
 ## Methods used per phase
 
-| Method | P2 | P3 | P4 | P5 | P6 |
-|---|---|---|---|---|---|
-| LoRA | A3 | A1, A2 |  |  | A1, KD |
-| LoRMA | A1 | A1 | A1, A2, A3 | A1 | A1 |
-| IA3 |  | A1, A2, A3 |  |  |  |
-| BitFit |  |  | A1, A2, A3, A4 |  |  |
-| Gradual unfreezing |  |  | A1, A2, A3 |  |  |
-| Full fine-tuning | A2 |  |  | A2 |  |
-| Partial fine-tuning | A4 (teacher) |  | KD | A4 |  |
-| QLoRA (4-bit NF4) |  |  |  | A1 |  |
-| Houlsby adapters |  |  |  | A3 | A2 |
-| AdaLoRA |  |  |  | A3 | A4 |
-| Knowledge distillation | A4→A2 | A1→A2 | A4→A2 | A4→A2 | A4→A3 |
+| Method | P2 | P3 | P4 | P5 | P6 | P7 |
+|---|---|---|---|---|---|---|
+| LoRA | A3 | A1, A2 |  |  | A1, KD |  |
+| LoRMA | A1 | A1 | A1, A2, A3 | A1 | A1 | A1 |
+| IA3 |  | A1, A2, A3 |  |  |  | A3 |
+| BitFit |  |  | A1, A2, A3, A4 |  |  |  |
+| Gradual unfreezing |  |  | A1, A2, A3 |  |  |  |
+| Full fine-tuning | A2 |  |  | A2 |  | A2 |
+| Partial fine-tuning | A4 (teacher) |  | KD | A4 |  | A4 |
+| QLoRA (4-bit NF4) |  |  |  | A1 |  | A1 |
+| Houlsby adapters |  |  |  | A3 | A2 |  |
+| AdaLoRA |  |  |  | A3 | A4 |  |
+| Knowledge distillation | A4→A2 | A1→A2 | A4→A2 | A4→A2 | A4→A3 | A1→A2 |
 
 Formulas, initialisation and settings for every method: [docs/methods.md](docs/methods.md).
 
@@ -60,9 +60,10 @@ Formulas, initialisation and settings for every method: [docs/methods.md](docs/m
 
 * **Long documents** — every phase has documents longer than the context: windows with overlap (NER), packed sentence windows
   (roles), the last 1,536 tokens in 3 chunks (judgment), up to 8 chunks spread over the document (statutes), sentence-aligned
-  segments with their own summary targets (summarization).
+  segments with their own summary targets (summarization), citation contexts against 200-word passages (retrieval).
 * **Heads on top of the frozen / adapted backbone** — BiLSTM + CRF over words (NER) or sentences (roles), BiLSTM + attention
-  pooling over chunks (judgment), layer mix + label attention starting from a logistic regression (statutes), the LM head itself (summarization).
+  pooling over chunks (judgment), layer mix + label attention starting from a logistic regression (statutes), the LM head itself (summarization),
+  a layer-mix retriever head trained contrastively and fused with a learned BM25 re-ranker (retrieval).
 * **Model selection on dev only** — test labels are never used; the dev set picks epochs, thresholds and decoding settings.
 * **Every submission is a notebook** with numbered `CELL N —` cells: CELL 2 holds all settings, the last cell checks the
   prediction format (every test id, nothing extra) and writes `submission.zip` with `prediction.json` at its root.
@@ -165,6 +166,19 @@ CS781-Legal-LM-Capstone/
 
 </details>
 
+<details><summary><b>Phase 7</b> — Prior case retrieval (6 submissions, Codabench Micro-F1@7)</summary>
+
+| # | Method | Submission | Micro-F1@7 |
+|---|---|---|---|
+| 01 | [Arch-1 + LoRMA](phase7_prior_case_retrieval/01_arch1_lorma/) | Architecture-1 decoder + LoRMA retriever, fused with the learned re-ranker | 0.466 |
+| 02 | [Arch-1 + QLoRA](phase7_prior_case_retrieval/02_arch1_qlora/) | Architecture-1 decoder in 4-bit NF4 + LoRA (QLoRA) retriever, fused with the learned re-ranker | 0.4725 |
+| 03 | [Arch-2 + full fine-tuning](phase7_prior_case_retrieval/03_arch2_full_ft/) | Architecture-2 encoder + full fine-tuning retriever, fused with the learned re-ranker | 0.4696 |
+| 04 | [Arch-3 + IA3](phase7_prior_case_retrieval/04_arch3_ia3/) | Architecture-3 E-LegalFormer + IA3 retriever, fused with the learned re-ranker | 0.4702 |
+| 05 | [Arch-4 + partial fine-tuning](phase7_prior_case_retrieval/05_arch4_partial_ft/) | Architecture-4 hybrid prefix-LM + partial (layer-wise) fine-tuning retriever, fused with the learned re-ranker | 0.4684 |
+| 06 | [KD Arch-1 → Arch-2](phase7_prior_case_retrieval/06_kd_arch1_to_arch2/) | Knowledge distillation: Architecture-1 + LoRMA retriever (teacher) → Architecture-2 encoder retriever (student) | 0.4702 |
+
+</details>
+
 ## Reproducing
 
 See [docs/reproducing.md](docs/reproducing.md): add the Hugging Face token as the Kaggle secret `HF`, attach the tokenizer and
@@ -177,6 +191,7 @@ Phase-1 outputs as notebook inputs, *Run All*. Model checkpoints and the competi
 * Only the official competition data; the Hugging Face dataset is downloaded at run time and not redistributed here.
 * Test labels are private and never used; model selection uses train / dev only.
 * No access tokens in the code (Kaggle secrets); notebook outputs that printed raw dataset text were removed before publishing.
+* Phase 7: the unmasked `CITATOR INFO` lists in the case headers (later cases citing a judgment) are not used for matching.
 
 ## References
 
